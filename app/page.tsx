@@ -1,14 +1,10 @@
-import { Button } from "@/components/ui/button";
+"use client";
+import { UserButton } from "@/features/auth/components/userButton";
 export default function Home() {
   return (
     <div className="flex gap-4 p-5">
-      Hello world
-      <Button>Click me</Button>
-      <Button variant={"destructive"}>Click me</Button>
-      <Button variant={"secondary"}>Click me</Button>
-      <Button variant={"ghost"}>Click me</Button>
-      <Button variant={"muted"}>Click me</Button>
-      <Button variant={"teritary"}>Click me</Button>
+      only logged in users can see this
+      <UserButton />
     </div>
   );
 }
