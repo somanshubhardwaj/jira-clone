@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
@@ -22,7 +23,7 @@ const formSchema = z.object({
   password: z.string().min(1, "Password is required"),
 });
 const SignInCard = () => {
-  const {mutate} = useLogin();
+  const { mutate, isPending } = useLogin();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -33,7 +34,6 @@ const SignInCard = () => {
 
   const onSubmit = (data: z.infer<typeof formSchema>) => {
     mutate(data);
-    console.log(data);
   };
   return (
     <Card className="w-full h-full md:w-[487px] border-none shadow-none ">
@@ -81,7 +81,7 @@ const SignInCard = () => {
               )}
             />
             <Button
-              disabled={false}
+              disabled={isPending}
               size={"lg"}
               variant="primary"
               className="w-full"
@@ -96,10 +96,20 @@ const SignInCard = () => {
         <Separator />
       </div>
       <CardContent className="p-7 flex flex-col gap-y-4 ">
-        <Button variant="secondary" size="lg" className="w-full">
+        <Button
+          variant="secondary"
+          size="lg"
+          className="w-full"
+          disabled={isPending}
+        >
           <FcGoogle /> Login with Google
         </Button>
-        <Button variant="secondary" size="lg" className="w-full">
+        <Button
+          variant="secondary"
+          size="lg"
+          className="w-full"
+          disabled={isPending}
+        >
           <FaGithub /> Login with Github
         </Button>
       </CardContent>

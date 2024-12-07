@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import {
   Card,
@@ -30,7 +31,7 @@ const formSchema = z.object({
   password: z.string().min(8, "Minimum 8 characters required"),
 });
 const SignUpCard = () => {
-  const {mutate} = useRegister();
+  const { mutate, isPending } = useRegister();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -117,7 +118,7 @@ const SignUpCard = () => {
               )}
             />
             <Button
-              disabled={false}
+              disabled={isPending}
               size={"lg"}
               variant="primary"
               className="w-full"
@@ -132,10 +133,20 @@ const SignUpCard = () => {
         <Separator />
       </div>
       <CardContent className="p-7 flex flex-col gap-y-4 ">
-        <Button variant="secondary" size="lg" className="w-full">
+        <Button
+          variant="secondary"
+          size="lg"
+          className="w-full"
+          disabled={isPending}
+        >
           <FcGoogle /> Login with Google
         </Button>
-        <Button variant="secondary" size="lg" className="w-full">
+        <Button
+          variant="secondary"
+          size="lg"
+          className="w-full"
+          disabled={isPending}
+        >
           <FaGithub /> Login with Github
         </Button>
       </CardContent>
