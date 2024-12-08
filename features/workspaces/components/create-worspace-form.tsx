@@ -18,10 +18,8 @@ import { Button } from "@/components/ui/button";
 import { useCreateWorkspace } from "../api/use-create-workspace";
 import { useRef } from "react";
 import Image from "next/image";
-import { Avatar } from "@/components/ui/avatar";
-import { AvatarFallback } from "@radix-ui/react-avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { ImageIcon } from "lucide-react";
-import { on } from "events";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 interface CreateWorkspaceFormProps {

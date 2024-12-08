@@ -14,7 +14,7 @@ const Settings = async ({ params }: SettingsProps) => {
   const initialData = await getWorkspace({ workspaceId: params.workspaceId });
   if (!initialData) redirect(`/workspaces/${params.workspaceId}`);
   return (
-    <div className="w-full max-w-screen-xl mx-auto">
+    <div className="w-full max-w-2xl mx-auto">
       <EditWorkspaceForm initialData={initialData} />
     </div>
   );
