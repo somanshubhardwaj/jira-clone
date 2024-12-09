@@ -113,14 +113,10 @@ const app = new Hono()
       if (member.role !== memberRole.ADMIN) {
         return c.json({ error: "Not authorized" }, 401);
       }
-      if (role === memberRole.ADMIN && member.role !== memberRole.ADMIN) {
-        return c.json({ error: "Not authorized" }, 401);
-      }
-      if (
+      const isLastAdmin =
         allMembers.documents.filter((m) => m.role === memberRole.ADMIN)
-          .length === 1 &&
-        role !== memberRole.ADMIN
-      ) {
+          .length === 1;
+      if (isLastAdmin && role !== memberRole.ADMIN) {
         return c.json({ error: "Cannot remove the last admin" }, 400);
       }
       if (memberToUpdate.$id === member.$id && role !== memberRole.ADMIN) {
