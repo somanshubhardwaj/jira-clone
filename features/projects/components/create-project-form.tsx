@@ -48,7 +48,7 @@ export const CreateProjectForm = ({ onCancel }: CreateWorkspaceFormProps) => {
       {
         onSuccess: ({ data }) => {
           form.reset();
-          // router.push(`/workspaces/${data.$id}`);
+          router.push(`/workspaces/${data.workspaceId}/projects/${data.$id}`);
           // redirect to the project page
         },
       }
@@ -79,7 +79,7 @@ export const CreateProjectForm = ({ onCancel }: CreateWorkspaceFormProps) => {
                   <FormItem>
                     <FormLabel>Project Name</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder="Enter workspace name" />
+                      <Input {...field} placeholder="Enter project name" />
                     </FormControl>{" "}
                     <FormMessage />
                   </FormItem>

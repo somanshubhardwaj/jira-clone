@@ -5,7 +5,9 @@ import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 import { ID, Query } from "node-appwrite";
 import { z } from "zod";
-import { ProjectSchema } from "../schema";
+import { ProjectSchema, updateProjectSchema } from "../schema";
+import { memberRole } from "@/features/members/type";
+import { Projects } from "../type";
 
 const app = new Hono()
   .get(
@@ -82,5 +84,89 @@ const app = new Hono()
 
       return c.json({ data: project });
     }
-  );
+  )
+  .patch(
+    "/:projectId",
+    sessionMiddleware,
+    zValidator("form", updateProjectSchema),
+    async (c) => {
+      const databases = c.get("databases");
+      const storage = c.get("storage");
+      const user = c.get("user");
+      const { name, image } = c.req.valid("form");
+      const projectId = c.req.param("projectId");
+      const project = await databases.getDocument<Projects>(
+        DATABASE_ID,
+        PROJECTS_ID,
+        projectId
+      );
+      const member = await getMember({
+        databases,
+        userId: user.$id,
+        workspaceId: project.workspaceId,
+      });
+      if (!member) {
+        return c.json(
+          {
+            error: "You are not allowed to update this workspace",
+          },
+          401
+        );
+      }
+      let uploadedImageUrl: string | undefined;
+      if (image instanceof File) {
+        const file = await storage.createFile(
+          IMAGES_BUCKET_ID,
+          ID.unique(),
+          image
+        );
+
+        const arrayBuffer = await storage.getFilePreview(
+          IMAGES_BUCKET_ID,
+          file.$id
+        );
+        uploadedImageUrl = `data:image/png;base64,${Buffer.from(
+          arrayBuffer
+        ).toString("base64")}`;
+      } else {
+        uploadedImageUrl = image;
+      }
+      const updatedProject = await databases.updateDocument(
+        DATABASE_ID,
+        PROJECTS_ID,
+        projectId,
+        {
+          name,
+          imageUrl: uploadedImageUrl,
+        }
+      );
+
+      return c.json({ data: updatedProject });
+    }
+  )
+  .delete("/:projectId", sessionMiddleware, async (c) => {
+    const { projectId } = c.req.param();
+    const databases = c.get("databases");
+    const storage = c.get("storage");
+    const user = c.get("user");
+    const project = await databases.getDocument<Projects>(
+      DATABASE_ID,
+      PROJECTS_ID,
+      projectId
+    );
+    const member = await getMember({
+      databases,
+      userId: user.$id,
+      workspaceId: project.workspaceId,
+    });
+    if (!member) {
+      return c.json(
+        { error: "You are not allowed to delete this project" },
+        401
+      );
+    }
+    // await storage.deleteFile(IMAGES_BUCKET_ID, project.imageUrl);
+    await databases.deleteDocument(DATABASE_ID, PROJECTS_ID, projectId);
+    return c.json({ data: "Project deleted successfully" });
+  });
 export default app;
