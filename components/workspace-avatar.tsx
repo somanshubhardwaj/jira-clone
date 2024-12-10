@@ -6,14 +6,21 @@ interface WorkSpaceAvatarProps {
   image?: string;
   name: string;
   className?: string;
+  fallbackClassName?: string;
 }
-const WorkSpaceAvatar = ({ image, name, className }: WorkSpaceAvatarProps) => {
+const WorkSpaceAvatar = ({
+  image,
+  name,
+  className,
+  fallbackClassName,
+}: WorkSpaceAvatarProps) => {
   if (!image) {
     return (
       <Avatar className={cn("size-10 rounded-md", className)}>
         <AvatarFallback
           className={cn(
-            " rounded-md text-white bg-blue-600 text-lg uppercase font-bold rounded-md"
+            "  text-white bg-blue-600 text-lg uppercase font-bold rounded-md",
+            fallbackClassName
           )}
         >
           {name[0]}
