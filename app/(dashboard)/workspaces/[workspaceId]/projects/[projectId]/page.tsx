@@ -6,6 +6,7 @@ import WorkSpaceAvatar from "@/components/workspace-avatar";
 import { Button } from "@/components/ui/button";
 import { PencilIcon } from "lucide-react";
 import Link from "next/link";
+import TaskViewSwitcher from "@/features/tasks/components/TaskViewSwitcher";
 interface props {
   params: Promise<{ projectId: string }>;
 }
@@ -37,6 +38,7 @@ const page = async (props: props) => {
           </Button>
         </div>
       </div>
+      <TaskViewSwitcher />
     </div>
   );
 };
