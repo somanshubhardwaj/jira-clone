@@ -13,7 +13,6 @@ import {
   type Storage as StorageType,
   type Users as UsersType,
 } from "node-appwrite";
-import next from "next";
 type AdditionalContext = {
   Variables: {
     account: AccountType;

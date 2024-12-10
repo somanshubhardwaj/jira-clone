@@ -4,11 +4,12 @@ import { EditWorkspaceForm } from "@/features/workspaces/components/edit-worspac
 import { redirect } from "next/navigation";
 import React from "react";
 interface SettingsProps {
-  params: {
+  params: Promise<{
     workspaceId: string;
-  };
+  }>;
 }
-const Settings = async ({ params }: SettingsProps) => {
+const Settings = async (props: SettingsProps) => {
+  const params = await props.params;
   const user = await getCurrent();
   if (!user) redirect("/sign-in");
   const initialData = await getWorkspace({ workspaceId: params.workspaceId });

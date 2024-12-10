@@ -17,7 +17,7 @@ const WorkspaceSwitcher = () => {
   const workspaceId = useWorkspaceId();
   const router = useRouter();
   const { data } = useGetWorkspaces();
-  const { close, isOpen, open, setIsOpen } = useCreateWorkspaceModal();
+  const { open } = useCreateWorkspaceModal();
   const onSelect = (id: string) => {
     router.push(`/workspaces/${id}`);
   };
