@@ -2,7 +2,7 @@ import React from "react";
 import { getCurrent } from "@/features/auth/actions";
 import { redirect } from "next/navigation";
 interface props {
-  params: { projectId: string };
+  params: Promise<{ projectId: string }>;
 }
 const page = async (props: props) => {
   const params = await props.params;
