@@ -13,19 +13,12 @@ import { Task, TaskStatus } from "@/features/tasks/types";
 import { Projects } from "@/features/projects/type";
 import { useWorkspaceId } from "@/features/workspaces/hooks/use-workspace-id";
 import { useConfirm } from "@/hooks/use-confirm";
-import {
-  CheckIcon,
-  ChevronRightIcon,
-  PencilIcon,
-  TrashIcon,
-  XIcon,
-} from "lucide-react";
+import { ChevronRightIcon, PencilIcon, TrashIcon, XIcon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useUpdateTaskModal } from "@/features/tasks/hooks/use-update-task-modal";
 import { Textarea } from "@/components/ui/textarea";
 import { useUpdateTask } from "@/features/tasks/api/useupdatetask";
-import { Span } from "next/dist/trace";
 import { useState } from "react";
 
 export default function TaskIdClient() {
