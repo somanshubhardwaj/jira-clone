@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Columns, Loader2, PlusIcon } from "lucide-react";
-import React from "react";
+import React, { useCallback } from "react";
 import { useCreateTaskModal } from "../hooks/use-create-project-modal";
 import { useGetTask } from "../api/use-get-task";
 import { useWorkspaceId } from "@/features/workspaces/hooks/use-workspace-id";
@@ -13,6 +13,8 @@ import { useTaskFilter } from "../hooks/use-task-filter";
 import { DataTable } from "./data-table";
 import columns from "./Columns";
 import DataKanban from "./data-kanban";
+import { Task, TaskStatus } from "../types";
+import { useBulkUpdateTask } from "../api/usebulkupdate";
 const TaskViewSwitcher = () => {
   const [{ status, projectId, assigneeId, dueDate, search }] = useTaskFilter();
   const [view, setView] = useQueryState("task-view", {
@@ -28,6 +30,17 @@ const TaskViewSwitcher = () => {
     search,
   });
   const { open } = useCreateTaskModal();
+  const { mutate: bulkUpdateTask } = useBulkUpdateTask();
+  const handleKanbanChange = useCallback(
+    (tasks: { $id: string; status: TaskStatus; position: number }[]) => {
+      bulkUpdateTask({
+        json: {
+          tasks,
+        },
+      });
+    },
+    [bulkUpdateTask]
+  );
   return (
     <Tabs
       className="flex-1 w-full rounded-lg border "
@@ -65,10 +78,15 @@ const TaskViewSwitcher = () => {
               <DataTable columns={columns} data={tasks?.documents ?? []} />
             </TabsContent>
             <TabsContent value="kanban" className="mt-0">
-              <DataKanban data={tasks?.documents ?? []} />
+              <DataKanban
+                data={tasks?.documents ?? []}
+                onChange={handleKanbanChange}
+              />
             </TabsContent>
             <TabsContent value="calendar" className="mt-0">
-              calendar
+              <div className="h-full w-full flex justify-center items-center text-muted-foreground text-center">
+                Coming Soon
+              </div>
             </TabsContent>
           </>
         )}
