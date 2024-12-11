@@ -5,17 +5,28 @@ import { useWorkspaceId } from "@/features/workspaces/hooks/use-workspace-id";
 import { Loader } from "lucide-react";
 import React from "react";
 import { CreateTaskForm } from "./create-task-form";
-interface TaskFormWrapperProps {
+import { useGetTask } from "../api/use-get-task-with-id";
+import { UpdateTaskForm } from "./update-task-form";
+interface EditTaskFormWrapperProps {
   onCancel: () => void;
+  taskId: string;
 }
 
-const TaskFormWrapper = ({ onCancel }: TaskFormWrapperProps) => {
+const EditTaskFormWrapper = ({
+  onCancel,
+  taskId,
+}: EditTaskFormWrapperProps) => {
   const workspaceId = useWorkspaceId();
+
   const { data: projects, isLoading: isLoadingProjects } = useGetProjects({
     workspaceId,
   });
   const { data: members, isLoading: isLoadingMembers } = useGetMembers({
     workspaceId,
+  });
+
+  const { data: initialTask, isLoading: isLoadingTask } = useGetTask({
+    taskId,
   });
 
   const projectsOptions = projects?.documents.map((project) => ({
@@ -28,7 +39,7 @@ const TaskFormWrapper = ({ onCancel }: TaskFormWrapperProps) => {
     name: member.name,
   }));
 
-  const isLoading = isLoadingProjects || isLoadingMembers;
+  const isLoading = isLoadingProjects || isLoadingMembers || isLoadingTask;
 
   if (isLoading) {
     return (
@@ -39,16 +50,20 @@ const TaskFormWrapper = ({ onCancel }: TaskFormWrapperProps) => {
       </Card>
     );
   }
+  if (!initialTask) {
+    return <div>Task not found</div>;
+  }
 
   return (
     <div>
-      <CreateTaskForm
+      <UpdateTaskForm
         onCancel={onCancel}
         projectOptions={projectsOptions || []}
         memberOptions={membersOptions || []}
+        initialTask={initialTask}
       />
     </div>
   );
 };
 
-export default TaskFormWrapper;
+export default EditTaskFormWrapper;

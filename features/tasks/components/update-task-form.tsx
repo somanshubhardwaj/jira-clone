@@ -31,30 +31,38 @@ import {
   SelectContent,
   SelectTrigger,
 } from "@/components/ui/select";
-import { TaskStatus } from "../types";
-interface CreateTaskFormProps {
+import { Task, TaskStatus } from "../types";
+import { useUpdateTask } from "../api/useupdatetask";
+interface UpdateTaskFormProps {
   onCancel?: () => void;
   projectOptions: { id: string; name: string; imageUrl: string }[];
   memberOptions: { id: string; name: string }[];
+  initialTask: Task;
 }
-export const CreateTaskForm = ({
+export const UpdateTaskForm = ({
   onCancel,
   projectOptions,
   memberOptions,
-}: CreateTaskFormProps) => {
+  initialTask,
+}: UpdateTaskFormProps) => {
   const router = useRouter();
   const workspaceId = useWorkspaceId();
-  const { mutate, isPending } = useCreateTask();
+  const { mutate, isPending } = useUpdateTask();
   const inputRef = useRef<HTMLInputElement>(null);
   const form = useForm<z.infer<typeof taskSchema>>({
-    resolver: zodResolver(taskSchema.omit({ workspaceId: true })),
+    resolver: zodResolver(
+      taskSchema.omit({ workspaceId: true, description: true })
+    ),
     defaultValues: {
-      workspaceId,
+      ...initialTask,
+      dueDate: new Date(initialTask.dueDate)
+        ? new Date(initialTask.dueDate)
+        : undefined,
     },
   });
   const onSubmit = (data: z.infer<typeof taskSchema>) => {
     mutate(
-      { json: { ...data, workspaceId } },
+      { json: data, param: { taskId: initialTask.$id } },
       {
         onSuccess: ({ data }) => {
           form.reset();
@@ -69,7 +77,7 @@ export const CreateTaskForm = ({
   return (
     <Card className="w-full h-full border-none shadow-none">
       <CardHeader className="flex p-7">
-        <CardTitle>Create a new Task</CardTitle>
+        <CardTitle>Update Task</CardTitle>
       </CardHeader>
       <div className="px-7">
         <Separator />
@@ -208,7 +216,7 @@ export const CreateTaskForm = ({
                 Cancel
               </Button>
               <Button type="submit" size={"lg"} disabled={isPending}>
-                Create Project
+                Update Task
               </Button>
             </div>{" "}
           </form>
