@@ -34,10 +34,10 @@ const TastActions = ({ id, projectId, children }: TastActionsProps) => {
     }
   };
   const onOpenTask = () => {
-    router.push(`/workspace/${workspaceId}/tasks/${id}`);
+    router.push(`/workspaces/${workspaceId}/tasks/${id}`);
   };
   const onOpenProject = () => {
-    router.push(`/workspace/${workspaceId}/projects/${projectId}`);
+    router.push(`/workspaces/${workspaceId}/projects/${projectId}`);
   };
 
   return (

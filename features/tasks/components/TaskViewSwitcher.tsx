@@ -15,7 +15,10 @@ import columns from "./Columns";
 import DataKanban from "./data-kanban";
 import { Task, TaskStatus } from "../types";
 import { useBulkUpdateTask } from "../api/usebulkupdate";
-const TaskViewSwitcher = () => {
+interface TaskViewSwitcherProps {
+  hideProjectFilter?: boolean;
+}
+const TaskViewSwitcher = ({ hideProjectFilter }: TaskViewSwitcherProps) => {
   const [{ status, projectId, assigneeId, dueDate, search }] = useTaskFilter();
   const [view, setView] = useQueryState("task-view", {
     defaultValue: "table",
@@ -66,7 +69,7 @@ const TaskViewSwitcher = () => {
           </Button>
         </div>
         <Separator className="my-4" />
-        <DataFilters />
+        <DataFilters hideProjectFilter={hideProjectFilter} />
         <Separator className="my-4" />
         {isLoadingTasks ? (
           <div className="flex items-center justify-center h-full">
