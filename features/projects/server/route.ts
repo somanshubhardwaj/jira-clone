@@ -37,6 +37,31 @@ const app = new Hono()
       return c.json({ data: projects });
     }
   )
+  .get(
+    "/:projectId",
+    sessionMiddleware,
+    zValidator("param", z.object({ projectId: z.string() })),
+    async (c) => {
+      const { projectId } = c.req.param();
+      const databases = c.get("databases");
+      const user = c.get("user");
+
+      const project = await databases.getDocument<Projects>(
+        DATABASE_ID,
+        PROJECTS_ID,
+        projectId
+      );
+      const member = await getMember({
+        databases,
+        userId: user.$id,
+        workspaceId: project.workspaceId,
+      });
+      if (!member) {
+        return c.json({ error: "Not a member of this workspace" }, 401);
+      }
+      return c.json({ data: project });
+    }
+  )
   .post(
     "/",
     sessionMiddleware,

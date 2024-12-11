@@ -80,7 +80,7 @@ export const EditProjectForm = ({
       { form: finalValues, param: { projectId: initialData.$id } },
       {
         onSuccess: () => {
-          form.reset();
+          // form.reset();
           // router.push(`/workspaces/${data.$id}`);
         },
       }
