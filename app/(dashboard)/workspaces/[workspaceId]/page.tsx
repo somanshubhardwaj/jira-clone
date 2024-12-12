@@ -1,7 +1,7 @@
 import { getCurrent } from "@/features/auth/actions";
 import { redirect } from "next/navigation";
 import Client from "./Client";
-import React, { Suspense } from "react";
+import React from "react";
 
 const WorkspaceIdPage = async () => {
   const user = await getCurrent();

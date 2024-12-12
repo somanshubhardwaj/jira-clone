@@ -6,9 +6,10 @@ import { useGetMembers } from "@/features/members/api/use-get-members";
 import MembersAvatar from "@/features/members/components/MembersAvatar";
 import { useGetProjects } from "@/features/projects/api/use-get-projects";
 import { useCreateProjectModal } from "@/features/projects/hooks/use-create-project-modal";
+import { Projects } from "@/features/projects/type";
 import { useGetTask } from "@/features/tasks/api/use-get-task";
 import { useCreateTaskModal } from "@/features/tasks/hooks/use-create-project-modal";
-import { TaskStatus } from "@/features/tasks/types";
+import { Task, TaskStatus } from "@/features/tasks/types";
 import { useGetWorkspaceAnalytics } from "@/features/workspaces/api/use-get-workspace-analytics";
 import { useGetWorkspace } from "@/features/workspaces/api/use-get-worspace";
 import { useWorkspaceId } from "@/features/workspaces/hooks/use-workspace-id";
@@ -129,7 +130,7 @@ const Client = () => {
       <div className="grid gap-4 md:grid-cols-2 ">
         <TaskList data={tasks.documents} total={tasks.total} />
         <ProjectList
-          data={projects.documents}
+          data={projects.documents as Projects[]}
           total={projects.total}
           workspaceId={workspaceId}
         />
@@ -140,6 +141,7 @@ const Client = () => {
 };
 
 export default Client;
+//eslint-disable-next-line @typescript-eslint/no-explicit-any
 const TaskList = ({ data, total }: { data: any; total: number }) => {
   const { open: openCreateTaskModal } = useCreateTaskModal();
   return (
@@ -157,7 +159,7 @@ const TaskList = ({ data, total }: { data: any; total: number }) => {
         </div>
       </div>
       <div className="divide-y">
-        {data.map((task: any) => (
+        {data.map((task: Task) => (
           <div key={task.$id} className="flex items-center gap-4 p-4">
             <div className="flex-1 space-y-1">
               <p className="font-medium leading-none">{task.name}</p>
@@ -189,12 +191,13 @@ const TaskList = ({ data, total }: { data: any; total: number }) => {
   );
 };
 
+//eslint-disable-next-line @typescript-eslint/no-explicit-any
 const ProjectList = ({
   data,
   total,
   workspaceId,
 }: {
-  data: any;
+  data: Projects[];
   total: number;
   workspaceId: string;
 }) => {
@@ -220,7 +223,7 @@ const ProjectList = ({
         </div>
       </div>
       <div className="divide-y">
-        {data.map((project: any) => (
+        {data.map((project: Projects) => (
           <div
             key={project.$id}
             className="hover:bg-accent/50 transition-colors"
@@ -252,7 +255,7 @@ const ProjectList = ({
     </div>
   );
 };
-
+//eslint-disable-next-line @typescript-eslint/no-explicit-any
 const MembersList = ({ data, total }: { data: any; total: number }) => {
   return (
     <div>
@@ -263,7 +266,7 @@ const MembersList = ({ data, total }: { data: any; total: number }) => {
         </div>
       </div>
       <div className="divide-y">
-        {data.map((member: any) => (
+        {data.map((member: { $id: string; name: string; email: string }) => (
           <div
             key={member.$id}
             className="flex items-center gap-3 p-4 hover:bg-accent/50 transition-colors"

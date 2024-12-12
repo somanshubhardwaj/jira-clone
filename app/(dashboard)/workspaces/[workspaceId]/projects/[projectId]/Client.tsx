@@ -2,8 +2,6 @@
 import { PencilIcon, TrendingUpIcon, TrendingDownIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import WorkSpaceAvatar from "@/components/workspace-avatar";
-import { FaCaretDown, FaCaretUp } from "react-icons/fa";
-import { cn } from "@/lib/utils";
 
 import React from "react";
 import TaskViewSwitcher from "@/features/tasks/components/TaskViewSwitcher";
