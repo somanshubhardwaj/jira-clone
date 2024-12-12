@@ -1,24 +1,13 @@
 import { getCurrent } from "@/features/auth/actions";
-import { getWorkspace } from "@/features/workspaces/actions";
-import { EditWorkspaceForm } from "@/features/workspaces/components/edit-worspace-form";
 import { redirect } from "next/navigation";
 import React from "react";
-interface SettingsProps {
-  params: Promise<{
-    workspaceId: string;
-  }>;
-}
-const Settings = async (props: SettingsProps) => {
-  const params = await props.params;
+import Client from "./Client";
+
+const Settings = async () => {
   const user = await getCurrent();
   if (!user) redirect("/sign-in");
-  const initialData = await getWorkspace({ workspaceId: params.workspaceId });
-  if (!initialData) redirect(`/workspaces/${params.workspaceId}`);
-  return (
-    <div className="w-full max-w-2xl mx-auto">
-      <EditWorkspaceForm initialData={initialData} />
-    </div>
-  );
+
+  return <Client />;
 };
 
 export default Settings;

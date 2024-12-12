@@ -91,7 +91,7 @@ export const EditWorkspaceForm = ({
       { form: finalValues, param: { workspaceId: initialData.$id } },
       {
         onSuccess: () => {
-          form.reset();
+          // form.reset();
           // router.push(`/workspaces/${data.$id}`);
         },
       }
