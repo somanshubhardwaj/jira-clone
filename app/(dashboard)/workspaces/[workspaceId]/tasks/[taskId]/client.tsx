@@ -119,10 +119,14 @@ const TaskOverview = ({ task }: { task: Task }) => {
             </p>
           </OverviewProperty>
           <OverviewProperty label="Due Date">
-            <TAskDate
-              date={new Date(task.dueDate)}
-              className="text-sm font-medium"
-            />
+            {task.dueDate ? (
+              <TAskDate
+                date={new Date(task.dueDate)}
+                className="text-sm font-medium"
+              />
+            ) : (
+              <div className="text-xs text-muted-foreground">No due date</div>
+            )}
           </OverviewProperty>
           <OverviewProperty label="Status">
             <Badge variant={task.status}>

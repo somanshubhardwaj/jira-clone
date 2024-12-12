@@ -4,7 +4,7 @@ import { CreateProjectModal } from "@/features/projects/components/create-projec
 import CreateTaskModal from "@/features/tasks/components/create-task-model";
 import UpdateTaskModal from "@/features/tasks/components/update-task-model";
 import { CreateWorkspaceModal } from "@/features/workspaces/components/create-workspace-modal";
-
+import { Analytics } from "@vercel/analytics/react";
 interface DashboardLayoutProps {
   children: React.ReactNode;
 }
@@ -15,6 +15,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
       <CreateProjectModal />
       <CreateTaskModal />
       <UpdateTaskModal />
+      <Analytics />
       <div className="flex w-full h-full">
         <div className="fixed left-0 top-0 hidden lg:block lg:w-[264px] h-full overflow-y-auto">
           <Sidebar />

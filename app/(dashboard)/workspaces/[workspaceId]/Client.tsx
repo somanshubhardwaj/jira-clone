@@ -128,7 +128,11 @@ const Client = () => {
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 ">
-        <TaskList data={tasks.documents} total={tasks.total} />
+        <TaskList
+          data={tasks.documents}
+          total={tasks.total}
+          workspaceId={workspaceId}
+        />
         <ProjectList
           data={projects.documents as Projects[]}
           total={projects.total}
@@ -142,7 +146,15 @@ const Client = () => {
 
 export default Client;
 //eslint-disable-next-line @typescript-eslint/no-explicit-any
-const TaskList = ({ data, total }: { data: any; total: number }) => {
+const TaskList = ({
+  data,
+  total,
+  workspaceId,
+}: {
+  data: any;
+  total: number;
+  workspaceId: string;
+}) => {
   const { open: openCreateTaskModal } = useCreateTaskModal();
   return (
     <div className="rounded-lg border">
@@ -160,7 +172,11 @@ const TaskList = ({ data, total }: { data: any; total: number }) => {
       </div>
       <div className="divide-y">
         {data.map((task: Task) => (
-          <div key={task.$id} className="flex items-center gap-4 p-4">
+          <Link
+            href={`/workspaces/${workspaceId}/tasks/${task.$id}`}
+            key={task.$id}
+            className="flex items-center gap-4 p-4"
+          >
             <div className="flex-1 space-y-1">
               <p className="font-medium leading-none">{task.name}</p>
               {/* <p className="text-sm text-muted-foreground">
@@ -184,7 +200,7 @@ const TaskList = ({ data, total }: { data: any; total: number }) => {
                       .replace(/_/g, " ")}
               </Badge>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>
