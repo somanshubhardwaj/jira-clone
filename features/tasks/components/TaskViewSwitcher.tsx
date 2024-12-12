@@ -34,6 +34,7 @@ const TaskViewSwitcher = ({ hideProjectFilter }: TaskViewSwitcherProps) => {
     dueDate,
     search,
   });
+  // console.log(tasks);
   const { open } = useCreateTaskModal();
 
   const { mutate: bulkUpdateTask } = useBulkUpdateTask();

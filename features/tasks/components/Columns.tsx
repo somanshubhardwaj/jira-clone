@@ -75,6 +75,7 @@ const columns: ColumnDef<Task>[] = [
       );
     },
     cell: ({ row }) => {
+      if (row.original.dueDate === null) return null;
       const dueDate = new Date(row.original.dueDate);
       return <TAskDate date={dueDate} />;
     },

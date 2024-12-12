@@ -14,7 +14,7 @@ const Projects = () => {
   const workspaceId = useWorkspaceId();
   const { open } = useCreateProjectModal();
   const { data } = useGetProjects({ workspaceId });
-  console.log(data);
+  // console.log(data);
   return (
     <div className="flex flex-col gap-y-2">
       <div className="flex items-center justify-between">

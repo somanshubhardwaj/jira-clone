@@ -44,7 +44,7 @@ const SignUpCard = () => {
   });
   const onSubmit = (data: z.infer<typeof formSchema>) => {
     mutate(data);
-    console.log(data);
+    // console.log(data);
   };
   return (
     <Card className="w-full h-full md:w-[487px] border-none shadow-none ">

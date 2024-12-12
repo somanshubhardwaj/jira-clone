@@ -75,7 +75,7 @@ const DataKanban = ({ data, onChange }: props) => {
         const [movedTask] = sourceColumn.splice(source.index, 1);
 
         if (!movedTask) {
-          console.error("No task found at the source index");
+          // console.error("No task found at the source index");
           return prevTasks;
         }
 

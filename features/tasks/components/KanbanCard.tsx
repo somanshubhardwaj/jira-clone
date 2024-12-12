@@ -25,7 +25,11 @@ const KanbanCard = ({ task }: KanbanCArdProps) => {
           fallbackClassName="text-[10px]"
         />
         <div className="size-1 rounded-full bg-neutral-300" />
-        <TAskDate className="text-xs" date={new Date(task.dueDate)} />
+        {task.dueDate ? (
+          <TAskDate className="text-xs" date={new Date(task.dueDate)} />
+        ) : (
+          <div className="text-xs text-muted-foreground">No due date</div>
+        )}
       </div>
       {/* <div className="flex gap-x-2.5 items-center mt-1">
         <WorkSpaceAvatar

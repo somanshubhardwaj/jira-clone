@@ -21,7 +21,7 @@ export function useLogout() {
     },
     onSuccess: () => {
       toast.success("Logout successful");
-      console.log("logout");
+      // console.log("logout");
       router.refresh();
       // window.location.reload();
       queryClient.invalidateQueries({ queryKey: ["current"] });
