@@ -24,6 +24,8 @@ import {
 } from "@/components/ui/form";
 import Link from "next/link";
 import { useRegister } from "../api/use-register";
+import { signUpWithGoogle } from "@/lib/oauth";
+import { signUpWithGithub } from "@/lib/oauth";
 
 const formSchema = z.object({
   name: z.string().trim().min(1, "Name is required"),
@@ -138,6 +140,7 @@ const SignUpCard = () => {
           size="lg"
           className="w-full"
           disabled={isPending}
+          onClick={() => signUpWithGoogle()}
         >
           <FcGoogle /> Login with Google
         </Button>
@@ -146,6 +149,7 @@ const SignUpCard = () => {
           size="lg"
           className="w-full"
           disabled={isPending}
+          onClick={() => signUpWithGithub()}
         >
           <FaGithub /> Login with Github
         </Button>

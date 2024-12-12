@@ -15,10 +15,12 @@ import columns from "./Columns";
 import DataKanban from "./data-kanban";
 import { Task, TaskStatus } from "../types";
 import { useBulkUpdateTask } from "../api/usebulkupdate";
+import { useProjectId } from "@/features/projects/hooks/useProjectId";
 interface TaskViewSwitcherProps {
   hideProjectFilter?: boolean;
 }
 const TaskViewSwitcher = ({ hideProjectFilter }: TaskViewSwitcherProps) => {
+  const paramProjectId = useProjectId();
   const [{ status, projectId, assigneeId, dueDate, search }] = useTaskFilter();
   const [view, setView] = useQueryState("task-view", {
     defaultValue: "table",
@@ -27,12 +29,13 @@ const TaskViewSwitcher = ({ hideProjectFilter }: TaskViewSwitcherProps) => {
   const { data: tasks, isLoading: isLoadingTasks } = useGetTask({
     workspaceId,
     status,
-    projectId,
+    projectId: paramProjectId || projectId,
     assigneeId,
     dueDate,
     search,
   });
   const { open } = useCreateTaskModal();
+
   const { mutate: bulkUpdateTask } = useBulkUpdateTask();
   const handleKanbanChange = useCallback(
     (tasks: { $id: string; status: TaskStatus; position: number }[]) => {

@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/form";
 import Link from "next/link";
 import { useLogin } from "../api/use-login";
+import { signUpWithGithub, signUpWithGoogle } from "@/lib/oauth";
 const formSchema = z.object({
   email: z.string().email(),
   password: z.string().min(1, "Password is required"),
@@ -101,6 +102,7 @@ const SignInCard = () => {
           size="lg"
           className="w-full"
           disabled={isPending}
+          onClick={() => signUpWithGoogle()}
         >
           <FcGoogle /> Login with Google
         </Button>
@@ -109,6 +111,7 @@ const SignInCard = () => {
           size="lg"
           className="w-full"
           disabled={isPending}
+          onClick={() => signUpWithGithub()}
         >
           <FaGithub /> Login with Github
         </Button>
